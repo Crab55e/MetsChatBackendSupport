@@ -1,0 +1,7 @@
+server_id: "main" # cant duplicate any servers in proxy
+proxy-server:
+    port: 50005
+    host: "localhost"
+    secret: "default"
+
+translation_resource_language: "ja_jp"

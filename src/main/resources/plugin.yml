@@ -1,0 +1,4 @@
+name: MetsChatBackendSupport
+version: '1.0-SNAPSHOT'
+main: cc.crab55e.metsChatBackendSupport.MetsChatBackendSupport
+api-version: '1.21'
