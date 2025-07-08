@@ -15,11 +15,13 @@ repositories {
     maven("https://oss.sonatype.org/content/groups/public/") {
         name = "sonatype"
     }
+    maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compileOnly("me.lucko:spark-api:0.1-SNAPSHOT")
 }
 
 tasks {
@@ -49,7 +51,3 @@ tasks.processResources {
     }
 }
 
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    archiveClassifier.set("") // ← `-all` なしにする（好み）
-    minimize() // ← 不要な依存削る。使わなくてもOK！
-}

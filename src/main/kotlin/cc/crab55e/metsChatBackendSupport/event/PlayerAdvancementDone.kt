@@ -29,9 +29,9 @@ class PlayerAdvancementDone(private val plugin: MetsChatBackendSupport) : Listen
                 "player" to mapOf(
                     "name" to event.player.name,
                     "uuid" to event.player.playerProfile.id.toString()
-                ),
-                "message_json" to jsonMessageContent
-            )
+                )
+            ),
+            jsonMessageContent
         )
     }
 }

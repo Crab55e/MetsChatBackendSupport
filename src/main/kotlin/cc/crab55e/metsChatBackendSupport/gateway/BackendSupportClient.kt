@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import kotlin.math.sign
 
 class BackendSupportClient(
     private val plugin: MetsChatBackendSupport,
@@ -21,7 +20,7 @@ class BackendSupportClient(
 ) {
     private val gson = Gson()
 
-    fun sendEvent(eventName: String, data: Map<String, Any>) {
+    fun sendEvent(eventName: String, data: Map<String, Any>, jsonComponent: String?) {
         val socket = Socket(host, port)
         socket.use {
             val secret = plugin.config.getString("proxy-server.secret") ?: return
@@ -30,12 +29,19 @@ class BackendSupportClient(
             val isoTimestamp = DateTimeFormatter.ISO_INSTANT
                 .withZone(ZoneOffset.UTC)
                 .format(Instant.ofEpochMilli(System.currentTimeMillis()))
+            val jsonComponentSafe: String
+            if (jsonComponent == null) {
+                jsonComponentSafe = ""
+            } else {
+                jsonComponentSafe = jsonComponent
+            }
 
             val message = mutableMapOf<String, Any>(
                 "event" to eventName,
                 "server_id" to serverId,
                 "timestamp" to isoTimestamp,
                 "data" to data,
+                "json_component" to jsonComponentSafe
             )
             val messageString = gson.toJson(message)
             val signature = generateHMAC(messageString, secret)

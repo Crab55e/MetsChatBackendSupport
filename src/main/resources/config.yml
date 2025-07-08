@@ -3,5 +3,3 @@ proxy-server:
     port: 50005
     host: "localhost"
     secret: "default"
-
-translation_resource_language: "ja_jp"
