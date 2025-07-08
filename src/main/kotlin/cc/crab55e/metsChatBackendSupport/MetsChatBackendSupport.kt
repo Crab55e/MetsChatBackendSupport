@@ -1,5 +1,6 @@
 package cc.crab55e.metsChatBackendSupport
 
+import cc.crab55e.metsChatBackendSupport.event.PlayerAdvancementDone
 import cc.crab55e.metsChatBackendSupport.event.PlayerDeath
 import cc.crab55e.metsChatBackendSupport.gateway.BackendSupportClient
 import cc.crab55e.metsChatBackendSupport.schedule.HeatBeat
@@ -53,6 +54,7 @@ class MetsChatBackendSupport : JavaPlugin() {
 
         val pluginManager = server.pluginManager
         pluginManager.registerEvents(PlayerDeath(this), this)
+        pluginManager.registerEvents(PlayerAdvancementDone(this), this)
 
         backendSupportClient!!.sendEvent(
             "plugin_enabled",
