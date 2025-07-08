@@ -2,6 +2,7 @@ package cc.crab55e.metsChatBackendSupport
 
 import cc.crab55e.metsChatBackendSupport.event.PlayerDeath
 import cc.crab55e.metsChatBackendSupport.gateway.BackendSupportClient
+import cc.crab55e.metsChatBackendSupport.schedule.HeatBeat
 import org.bukkit.plugin.java.JavaPlugin
 
 class MetsChatBackendSupport : JavaPlugin() {
@@ -16,11 +17,6 @@ class MetsChatBackendSupport : JavaPlugin() {
         return serverId
     }
 
-    fun getLanguage(): String? {
-        return config.getString("translation_resource_language")
-    }
-
-
     override fun onEnable() {
         saveResource("config.yml", false);
         saveDefaultConfig()
@@ -29,14 +25,14 @@ class MetsChatBackendSupport : JavaPlugin() {
 
         if (serverId == null) {
             logger.warning("required configuration \"server_id\" is null.")
-            this.server.shutdown()
+            server.shutdown()
             return
         }
 
         val secret = config.getString("proxy-server.secret")
         if (secret == null || secret == "") {
             logger.warning("required configuration \"secret\" is null or empty. ")
-            this.server.shutdown()
+            server.shutdown()
             return
         }
 
@@ -55,8 +51,6 @@ class MetsChatBackendSupport : JavaPlugin() {
             serverId!!
         )
 
-        val translationResourceLanguage = config.getString("translation_resource_language")
-
         val pluginManager = server.pluginManager
         pluginManager.registerEvents(PlayerDeath(this), this)
 
@@ -64,13 +58,24 @@ class MetsChatBackendSupport : JavaPlugin() {
             "plugin_enabled",
             mapOf(
                 "name" to this.name
-            )
+            ),
+            null
         )
         logger.info("Connected")
+
+        val scheduler = server.scheduler
+        scheduler.runTaskTimer(this, HeatBeat(this), 20, 20)
     }
 
     override fun onDisable() {
         logger.info("Disabling...")
+        backendSupportClient?.sendEvent(
+            "plugin_disabled",
+            mapOf(
+                "name" to this.name
+            ),
+            null
+        )
         logger.info("Disabled.")
     }
 }
