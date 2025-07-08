@@ -51,7 +51,3 @@ tasks.processResources {
     }
 }
 
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    archiveClassifier.set("") // ← `-all` なしにする（好み）
-    minimize() // ← 不要な依存削る。使わなくてもOK！
-}
