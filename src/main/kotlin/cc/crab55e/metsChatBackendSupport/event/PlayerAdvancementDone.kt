@@ -21,7 +21,8 @@ class PlayerAdvancementDone(private val plugin: MetsChatBackendSupport) : Listen
             logger.warning("Failed to get serverId")
             return
         }
-        val jsonMessageContent = GsonComponentSerializer.gson().serialize(event.message()!!.asComponent())
+        val eventMessage = event.message() ?: return
+        val jsonMessageContent = GsonComponentSerializer.gson().serialize(eventMessage.asComponent())
 
         client.sendEvent(
             "player_advancement_done_event",

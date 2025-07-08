@@ -21,7 +21,8 @@ class PlayerDeath(private val plugin: MetsChatBackendSupport) : Listener {
             logger.warning("Failed to get serverId")
             return
         }
-        val jsonMessageContent = GsonComponentSerializer.gson().serialize(event.deathMessage()!!.asComponent())
+        val deathMessage = event.deathMessage() ?: return
+        val jsonMessageContent = GsonComponentSerializer.gson().serialize(deathMessage.asComponent())
 
         client.sendEvent(
             "player_death_event",
@@ -29,7 +30,8 @@ class PlayerDeath(private val plugin: MetsChatBackendSupport) : Listener {
                 "player" to mapOf(
                     "name" to event.player.name,
                     "uuid" to event.player.playerProfile.id.toString()
-                )),
+                )
+            ),
             jsonMessageContent
         )
     }
