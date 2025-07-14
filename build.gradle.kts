@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.20"
-    id("com.gradleup.shadow") version "8.3.0"
+    id("com.gradleup.shadow") version "9.0.0-rc1"
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
@@ -20,7 +20,6 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compileOnly("me.lucko:spark-api:0.1-SNAPSHOT")
 }
 
